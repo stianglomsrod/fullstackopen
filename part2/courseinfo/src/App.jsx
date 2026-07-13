@@ -1,30 +1,25 @@
-// const Header = (props) => <h1>{props.course}</h1>
-
-// const Content = (props) => (
-//   <div>
-//     <Part part={props.parts[0]} />
-//     <Part part={props.parts[1]} />
-//     <Part part={props.parts[2]} />
-//   </div>
-// )
-
-// const Part = (props) => (
-//   <p>
-//     {props.part.name} {props.part.exercises}
-//   </p>
-// )
-
-// const Total = (props) => <p>Number of exercises {props.total}</p>
 
 const Part = (props) => {
   return (
     <>
-      <p key={props.key}>
+      <p key={props.id}>
         {props.name} {props.exercises}
       </p>
     </>
   );
 };
+
+const Total = ({ parts }) => {
+  
+  
+  const total = parts.reduce((accumulator, currentValue) => accumulator + currentValue.exercises, 0)
+
+  return (
+    <>
+      <strong>total of{" "}{total}{" "}exercises</strong>
+    </>
+  )
+}
 
 const Content = ({ parts }) => {
   return (
@@ -34,6 +29,7 @@ const Content = ({ parts }) => {
           <Part key={part.id} name={part.name} exercises={part.exercises} />
         );
       })}
+      <Total parts={parts}/>
     </>
   );
 };
@@ -76,6 +72,11 @@ const App = () => {
         name: "State of a component",
         exercises: 14,
         id: 3,
+      },
+      {
+        name: "Redux",
+        exercises: 11,
+        id: 4,
       },
     ],
   };
