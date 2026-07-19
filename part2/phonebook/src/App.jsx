@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import personsService from "./services/persons";
 
 const Filter = ({ value, onChange }) => {
   return (
@@ -22,23 +22,26 @@ const Persons = ({ person }) => {
 };
 
 const PersonForm = (props) => {
-
-
   return (
-  <>
-    <form onSubmit={props.onSubmit}>
+    <>
+      <form onSubmit={props.onSubmit}>
         <div>
-          name: <input value={props.nameValue} onChange={props.handleNameChange} />
+          name:{" "}
+          <input value={props.nameValue} onChange={props.handleNameChange} />
         </div>
         <div>
-          number: <input value={props.numberValue} onChange={props.handleNumberChange} />
+          number:{" "}
+          <input
+            value={props.numberValue}
+            onChange={props.handleNumberChange}
+          />
         </div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
-  </>
-  )
+    </>
+  );
 };
 
 const App = () => {
@@ -50,37 +53,33 @@ const App = () => {
     person.name.toLowerCase().includes(filter.toLowerCase()),
   );
 
-
   useEffect(() => {
-    axios.
-    get('http://localhost:3001/persons')
-    .then(response => {
-      setPersons(response.data)
-    })
-  }, [])
-
-
+    personsService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
+    });
+  }, []);
 
   const handleNameChange = (e) => {
     setNewName(e.target.value);
   };
 
   const addPerson = (e) => {
-    console.log(e.target);
     e.preventDefault();
     const personObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     };
     const nameAlreadyExists = persons.some((person) => person.name === newName);
 
     if (nameAlreadyExists) {
       alert(`${newName} is already in the phonebook`);
     } else {
-      setPersons(persons.concat(personObject));
-      setNewName("");
-      setNewNumber("");
+      personsService.create(personObject)
+      .then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setNewName("");
+        setNewNumber("");
+      });
     }
   };
 
