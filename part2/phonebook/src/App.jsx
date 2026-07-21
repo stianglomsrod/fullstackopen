@@ -1,57 +1,17 @@
 import { useState, useEffect } from "react";
 import personsService from "./services/persons";
-
-const Filter = ({ value, onChange }) => {
-  return (
-    <>
-      <div>
-        filter shown with <input value={value} onChange={onChange} />
-      </div>
-    </>
-  );
-};
-
-const Persons = ({ person, removePerson }) => {
-  return (
-    <>
-      <li>
-        {person.name} {person.number}
-        <button onClick={() => removePerson(person.id, person.name)}>
-          delete
-        </button>
-      </li>
-    </>
-  );
-};
-
-const PersonForm = (props) => {
-  return (
-    <>
-      <form onSubmit={props.onSubmit}>
-        <div>
-          name:{" "}
-          <input value={props.nameValue} onChange={props.handleNameChange} />
-        </div>
-        <div>
-          number:{" "}
-          <input
-            value={props.numberValue}
-            onChange={props.handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-    </>
-  );
-};
+import Notification from "./components/Notification";
+import Filter from "./components/Filter";
+import Persons from "./components/Persons";
+import PersonForm from "./components/Personform";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [notification, setNotification] = useState(null);
+
   const personsToShow = persons.filter((person) =>
     person.name.toLowerCase().includes(filter.toLowerCase()),
   );
@@ -89,9 +49,15 @@ const App = () => {
                 .filter((person) => person.id !== updatedPerson.id)
                 .concat(updatedPerson),
             );
+            setNotification(`Updated ${newName}'s number to ${newNumber}`)
+            setTimeout(() => {
+              setNotification(null)
+            }, 5000);
           })
           .catch((error) => console.log("Error updating number ", error));
 
+
+        
         setNewName("");
         setNewNumber("");
       }
@@ -100,6 +66,10 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
+        setNotification(`Added ${personObject.name}`);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
       });
     }
   };
@@ -127,6 +97,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification} />
       <Filter value={filter} onChange={handleFilterChange} />
       <h3>add a new</h3>
       <PersonForm

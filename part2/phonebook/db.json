@@ -17,8 +17,38 @@
     },
     {
       "name": "stian",
-      "number": "985",
+      "number": "5643tji",
       "id": "n_T5yHjnwZ4"
+    },
+    {
+      "name": "test",
+      "number": "123",
+      "id": "LiFIY_PMpeo"
+    },
+    {
+      "name": "Stian Glomsrød",
+      "number": "12345",
+      "id": "_GcBHLESPA8"
+    },
+    {
+      "name": "trhgsreg",
+      "number": "452542",
+      "id": "ieQeBpMGgFU"
+    },
+    {
+      "name": "r4ewg45",
+      "number": "t54g5ws",
+      "id": "xsC_KVrqYIk"
+    },
+    {
+      "name": "asdfdsfsd",
+      "number": "56546",
+      "id": "OEvoUjWvTvc"
+    },
+    {
+      "name": "565346",
+      "number": "gsgg45",
+      "id": "YA3tIvViTUg"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
