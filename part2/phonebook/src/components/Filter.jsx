@@ -8,4 +8,4 @@ const Filter = ({ value, onChange }) => {
   );
 };
 
-export default Filter
+export default Filter;

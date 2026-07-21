@@ -21,5 +21,4 @@ const PersonForm = (props) => {
   );
 };
 
-
-export default PersonForm
+export default PersonForm;

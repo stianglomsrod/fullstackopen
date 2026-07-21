@@ -1,5 +1,3 @@
-import persons from "../services/persons";
-
 const Persons = ({ person, removePerson }) => {
   return (
     <>
@@ -13,4 +11,4 @@ const Persons = ({ person, removePerson }) => {
   );
 };
 
-export default Persons
+export default Persons;

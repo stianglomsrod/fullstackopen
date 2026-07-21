@@ -5,6 +5,8 @@ import Filter from "./components/Filter";
 import Persons from "./components/Persons";
 import PersonForm from "./components/Personform";
 
+
+
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
@@ -49,15 +51,23 @@ const App = () => {
                 .filter((person) => person.id !== updatedPerson.id)
                 .concat(updatedPerson),
             );
-            setNotification(`Updated ${newName}'s number to ${newNumber}`)
+            setNotification({
+              message: `Updated ${newName}'s number to ${newNumber}`,
+              success: true,
+            });
             setTimeout(() => {
-              setNotification(null)
+              setNotification(null);
             }, 5000);
           })
-          .catch((error) => console.log("Error updating number ", error));
+          .catch((error) => {
+            setNotification({
+              message: `Information of ${newName} has already been removed from the server`,
+            });
+            setTimeout(() => {
+              setNotification(null);
+            }, 5000);
+          });
 
-
-        
         setNewName("");
         setNewNumber("");
       }
@@ -66,7 +76,10 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
-        setNotification(`Added ${personObject.name}`);
+        setNotification({
+          message: `Added ${personObject.name}`,
+          success: true,
+        });
         setTimeout(() => {
           setNotification(null);
         }, 5000);
@@ -82,7 +95,14 @@ const App = () => {
         .then(() => {
           setPersons(persons.filter((person) => person.id !== id));
         })
-        .catch((error) => console.log("Error deleting: ", error));
+        .catch((error) => {
+          setNotification({
+            message: `Information of ${name} has already been removed from the server`,
+          });
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
+        });
     }
   };
 
@@ -97,7 +117,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification} />
+      <Notification notification={notification} />
       <Filter value={filter} onChange={handleFilterChange} />
       <h3>add a new</h3>
       <PersonForm

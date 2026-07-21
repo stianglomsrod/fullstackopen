@@ -16,29 +16,9 @@
       "id": "4"
     },
     {
-      "name": "stian",
-      "number": "5643tji",
-      "id": "n_T5yHjnwZ4"
-    },
-    {
-      "name": "test",
-      "number": "123",
-      "id": "LiFIY_PMpeo"
-    },
-    {
       "name": "Stian Glomsrød",
       "number": "12345",
       "id": "_GcBHLESPA8"
-    },
-    {
-      "name": "trhgsreg",
-      "number": "452542",
-      "id": "ieQeBpMGgFU"
-    },
-    {
-      "name": "r4ewg45",
-      "number": "t54g5ws",
-      "id": "xsC_KVrqYIk"
     },
     {
       "name": "asdfdsfsd",
@@ -49,6 +29,11 @@
       "name": "565346",
       "number": "gsgg45",
       "id": "YA3tIvViTUg"
+    },
+    {
+      "name": "gtrhds",
+      "number": "543",
+      "id": "bFXEMMskNjA"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
