@@ -11,11 +11,14 @@ const Filter = ({ value, onChange }) => {
   );
 };
 
-const Persons = ({ person }) => {
+const Persons = ({ person, removePerson }) => {
   return (
     <>
       <li>
         {person.name} {person.number}
+        <button onClick={() => removePerson(person.id, person.name)}>
+          delete
+        </button>
       </li>
     </>
   );
@@ -72,14 +75,44 @@ const App = () => {
     const nameAlreadyExists = persons.some((person) => person.name === newName);
 
     if (nameAlreadyExists) {
-      alert(`${newName} is already in the phonebook`);
+      if (
+        window.confirm(
+          `${newName} is already in the phonebook, replace old number with a new one?`,
+        )
+      ) {
+        const oldPerson = persons.filter((obj) => obj.name === newName)[0];
+        personsService
+          .update(oldPerson.id, personObject)
+          .then((updatedPerson) => {
+            setPersons(
+              persons
+                .filter((person) => person.id !== updatedPerson.id)
+                .concat(updatedPerson),
+            );
+          })
+          .catch((error) => console.log("Error updating number ", error));
+
+        setNewName("");
+        setNewNumber("");
+      }
     } else {
-      personsService.create(personObject)
-      .then((returnedPerson) => {
+      personsService.create(personObject).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
       });
+    }
+  };
+
+  const removePerson = (id, name) => {
+    console.log(id, name);
+    if (window.confirm(`Delete ${name}?`)) {
+      personsService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== id));
+        })
+        .catch((error) => console.log("Error deleting: ", error));
     }
   };
 
@@ -105,7 +138,7 @@ const App = () => {
       />
       <h2>Numbers</h2>
       {personsToShow.map((person) => (
-        <Persons key={person.id} person={person} />
+        <Persons key={person.id} person={person} removePerson={removePerson} />
       ))}
     </div>
   );
