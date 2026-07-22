@@ -6,6 +6,7 @@ import CountryDetails from "./components/CountryDetails";
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [searchFilter, setSearchFilter] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   useEffect(() => {
     helpers.getAll().then((countriesArr) => {
@@ -17,6 +18,7 @@ const App = () => {
     const newFilter = event.target.value;
 
     setSearchFilter(newFilter);
+    setSelectedCountry(null);
 
     console.log(
       countries.filter((country) =>
@@ -31,6 +33,10 @@ const App = () => {
       )
     : [];
 
+  const handleClick = (country) => {
+    setSelectedCountry(country);
+  };
+
   return (
     <>
       <div>
@@ -38,13 +44,19 @@ const App = () => {
         <input value={searchFilter} onChange={handleFilterChange} />
       </div>
 
-      {searchFilter === "" ? null : countriesToShow.length === 1 ? (
+      {selectedCountry ? (
+        <CountryDetails country={selectedCountry} />
+      ) : searchFilter === "" ? null : countriesToShow.length === 1 ? (
         <CountryDetails country={countriesToShow[0]} />
       ) : countriesToShow.length > 10 ? (
         <p>Too many matches, specify another filter</p>
       ) : (
         countriesToShow.map((country) => (
-          <CountryName key={country.name.common} country={country} />
+          <CountryName
+            key={country.name.common}
+            country={country}
+            handleClick={handleClick}
+          />
         ))
       )}
     </>
