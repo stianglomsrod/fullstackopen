@@ -97,7 +97,8 @@ const App = () => {
         })
         .catch((error) => {
           setNotification({
-            message: `Information of ${name} has already been removed from the server`,
+            message: `Information of ${name} has already been removed from the server`
+            
           });
           setTimeout(() => {
             setNotification(null);
